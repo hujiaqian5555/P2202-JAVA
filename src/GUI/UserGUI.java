@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import GUI.*;
 import fun.*;
-public class userGUI {
+public class UserGUI {
     private JButton exitButton;
     private JPanel user;
     private JPanel avatar;
@@ -14,7 +14,7 @@ public class userGUI {
     private JButton BorrowButton;
     private JButton ReturnButton;
     private JTabbedPane tabbedPane2;
-    public userGUI(){
+    public UserGUI(){
         BorrowButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,7 +36,7 @@ public class userGUI {
     }
     public static void show() {
         JFrame frame = new JFrame("userGUI");
-        frame.setContentPane(new userGUI().user);
+        frame.setContentPane(new UserGUI().user);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
