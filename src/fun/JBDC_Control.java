@@ -40,7 +40,7 @@ public class JBDC_Control {
      * @param statement  声明
      * @param connection 连接
      */
-    public  void close(ResultSet rs , Statement statement,Connection connection){
+    public  static void close(ResultSet rs , Statement statement,Connection connection){
 
         try {
             if (rs!=null) {

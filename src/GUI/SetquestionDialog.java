@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 public class SetquestionDialog extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
+    private JButton back;
     private JButton buttonCancel;
     private JTextField textField1;
     private JTextField textField2;
@@ -15,13 +15,14 @@ public class SetquestionDialog extends JDialog {
     private JTextField textField6;
 
     public SetquestionDialog() {
+
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(back);
         setLocationRelativeTo(LoginGUI.frame);
-        buttonOK.addActionListener(new ActionListener() {
+        back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+               okButton();
             }
         });
 
@@ -47,20 +48,18 @@ public class SetquestionDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // 在此处添加您的代码
-        dispose();
-    }
+
 
     private void onCancel() {
         // 必要时在此处添加您的代码
         dispose();
     }
 
-    public static void main(String[] args) {
-        SetquestionDialog dialog = new SetquestionDialog();
+    private void okButton(){
+        RegisterDialog dialog = new RegisterDialog();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
+        this.setVisible(false);
     }
 }

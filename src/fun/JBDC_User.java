@@ -1,15 +1,21 @@
 package fun;
 import classlib.*;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JBDC_User {
 
-    public static List readStudentData() {
+    /**
+     * 读取学生数据
+     *
+     * @return {@link List}
+     */
+    public static List readUserData() {
          List<User> userList = new ArrayList<>();
-         Connection connection = JBDC_Control.getConnection("root","123456");
+         Connection connection = JBDC_Control.getConnection(system.getMysql_admin(),system.getMysql_pass());
 
         try {
             Statement  statement = connection.createStatement();
@@ -30,6 +36,7 @@ public class JBDC_User {
                         rs.getString(10)//a3
                 ));
             }
+            JBDC_Control.close(rs,statement,connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -37,22 +44,60 @@ public class JBDC_User {
         return userList;
     }
 
-    public static void main(String[] args) {
-        List<User> userList = new ArrayList<>();
-        userList = readStudentData();
-        for (User user : userList){
-            System.out.println(user);
-        }
-    }
-
+    /**
+     * 通过电话号码在数据库中查找用户
+     *
+     * @param phone 电话
+     * @return {@link User} 若未查询到则返回null
+     */
     public static User querryUserbyPhone(String phone) {
-        List<User> userList =  readStudentData();
+        List<User> userList =  readUserData();
         for (User user:userList){
             if (user.getPhone().equals(phone)){
-
                 return user;
             }
         }
         return null;
     }
+
+    /**增加用户
+     *
+     * @param user 用户名
+     * @param pass 密码
+     * @param phone 手机号
+     * @return boolean 返回是否成功
+     */
+    public static boolean addUserData(String user,String pass,String phone){
+        Connection connection = JBDC_Control.getConnection(system.getMysql_admin(),system.getMysql_pass());
+        if (!user.contains("/'")){
+            user="\""+user+"\"";
+        }
+
+        if (!pass.contains("/'")){
+            pass="\""+pass+"\"";
+        }
+
+        if (!phone.contains("/'")){
+            phone="\""+phone+"\"";
+        }
+        Statement  statement = null;
+        try {
+            statement = connection.createStatement();
+            String sql = "INSERT INTO user(user,pass,phone) values ("+user+","+pass+","+phone+")";
+            int status = statement.executeUpdate(sql);
+            if (status>0){
+                System.out.println("增加成功");
+                return true;
+            }else {
+                System.out.println("增加失败");
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
 }
